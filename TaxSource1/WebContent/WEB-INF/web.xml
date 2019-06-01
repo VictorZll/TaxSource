@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>TaxSource</display-name>
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  	<servlet>
+		<servlet-name>kaptcha</servlet-name>
+		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+		<init-param>
+			<param-name>kaptcha.image.width</param-name><!-- 验证码宽度 -->
+			<param-value>100</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.image.height</param-name><!-- 验证码高度 -->
+			<param-value>35</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.char.length</param-name><!-- 验证码字符个数 -->
+			<param-value>4</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.font.size</param-name><!-- 验证码字体大小 -->
+			<param-value>30</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.noise.impl</param-name><!-- 验证码干扰线实现 -->
+			<param-value>com.google.code.kaptcha.impl.NoNoise</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.session.key</param-name><!-- Session中验证码保存的键 -->
+			<param-value>KAPTCHA_SESSION_KEY</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.background.clear.from</param-name><!-- 验证码渐变背景开始颜色 -->
+			<param-value>green</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>kaptcha</servlet-name>
+		<url-pattern>/kcaptcha.jpg</url-pattern>
+	</servlet-mapping>
+	
+
+</web-app>

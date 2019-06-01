@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newroad.manage.dao.TaxPayer1Mapper">
+  <resultMap id="BaseResultMap" type="com.newroad.manage.entity.TaxPayer1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="payerCode" jdbcType="VARCHAR" property="payerCode" />
+    <result column="payerName" jdbcType="VARCHAR" property="payername" />
+    <result column="bizAddress" jdbcType="VARCHAR" property="bizaddress" />
+    <result column="taxOrganId" jdbcType="INTEGER" property="taxorganid" />
+    <result column="industryId" jdbcType="INTEGER" property="industryid" />
+    <result column="bizScope" jdbcType="VARCHAR" property="bizscope" />
+    <result column="invoiceType" jdbcType="VARCHAR" property="invoicetype" />
+    <result column="legalPerson" jdbcType="VARCHAR" property="legalperson" />
+    <result column="legalIdCard" jdbcType="VARCHAR" property="legalidcard" />
+    <result column="legalMobile" jdbcType="VARCHAR" property="legalmobile" />
+    <result column="legalIdCardImageURL" jdbcType="VARCHAR" property="legalidcardimageurl" />
+    <result column="finaceName" jdbcType="VARCHAR" property="finacename" />
+    <result column="finaceIdCard" jdbcType="VARCHAR" property="finaceidcard" />
+    <result column="finaceMobile" jdbcType="VARCHAR" property="finacemobile" />
+    <result column="finaceIdCardImageURL" jdbcType="VARCHAR" property="finaceidcardimageurl" />
+    <result column="taxerName" jdbcType="VARCHAR" property="taxername" />
+    <result column="taxerIdCard" jdbcType="VARCHAR" property="taxeridcard" />
+    <result column="taxerMobile" jdbcType="VARCHAR" property="taxermobile" />
+    <result column="taxerIdCardImageURL" jdbcType="VARCHAR" property="taxeridcardimageurl" />
+    <result column="bizAddressPhone" jdbcType="VARCHAR" property="bizaddressphone" />
+    <result column="recordDate" jdbcType="DATE" property="recorddate" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="removeState" jdbcType="INTEGER" property="removestate" />
+  </resultMap>
+<!-- 1计算总数的方法 -->
+	<select id="getCount" resultType="java.lang.Integer">
+	select count(*) as zs from tb_tax_payer 
+	<where>
+	removeState=0
+	<if test="qc!=null">
+	 and ${qc}
+	</if>
+	</where>
+	</select>
+<!-- 2分页的方法 -->	
+<sql id="Base_Column_Page_Condition">
+taxOrganId,industryId,bizscope,payerCode,payerName,organName,industryName,legalPerson,legalidcard,finaceName,finaceIdCard,taxerName,tb_tax_payer.recordDate 
+</sql>
+<sql id="Base_Column_Page_Table">
+ tb_tax_payer left JOIN tb_tax_organ ON tb_tax_payer.taxOrganId=tb_tax_organ.id left JOIN tb_industry ON tb_tax_payer.industryId=tb_industry.id 
+</sql>
+<select id="listByPage" resultType="TaxPayer1">
+	select <include refid="Base_Column_Page_Condition" />
+	from <include refid="Base_Column_Page_Table" />
+	<where>removeState=0
+	<if test="qc!=null">
+	and ${qc}
+	</if>
+	order by (payerCode-1) limit #{offset},#{rows}
+	</where>
+</select>
+<!-- 3查询单条数据的方法 -->
+<select id="querySingleData" resultType="TaxPayer1">
+select <include refid="Base_Column_List" /> from tb_tax_payer where payerCode=#{payerCode}
+</select>
+<!-- 4验证编号唯一的方法 -->
+<select id="isRepeat" resultType="TaxPayer1">
+select payerCode from tb_tax_payer where payerCode=#{payerCode}
+</select>
+<!-- 5修改的方法 -->
+<update id="updateByTaxpayerCode" >
+update tb_tax_payer set payerName=#{payername},
+bizAddress=#{bizaddress},bizAddressPhone=#{bizaddressphone},
+taxOrganId=#{taxorganid},industryId=#{industryid},bizScope=#{bizscope},
+invoiceType=#{invoicetype},legalPerson=#{legalperson},legalIdCard=#{legalidcard},
+finaceName=#{finacename},finaceIdCard=#{finaceidcard},taxerName=#{taxername},
+recordDate=#{recorddate} where payerCode=#{payerCode}
+</update>
+<!-- 6删除的方法 -->
+<update id="remove">
+update tb_tax_payer set removestate=1 where payercode=#{payerCode}
+</update>
+
+  <sql id="Base_Column_List">
+    id, payerCode, payerName, bizAddress, taxOrganId, industryId, bizScope, invoiceType, 
+    legalPerson, legalIdCard, legalMobile, legalIdCardImageURL, finaceName, finaceIdCard, 
+    finaceMobile, finaceIdCardImageURL, taxerName, taxerIdCard, taxerMobile, taxerIdCardImageURL, 
+    bizAddressPhone, recordDate, userId, removeState
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_tax_payer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.newroad.manage.entity.TaxPayer1">
+    insert into tb_tax_payer (id, payerCode, payerName, 
+      bizAddress, taxOrganId, industryId, 
+      bizScope, invoiceType, legalPerson, 
+      legalIdCard, legalMobile, legalIdCardImageURL, 
+      finaceName, finaceIdCard, finaceMobile, 
+      finaceIdCardImageURL, taxerName, taxerIdCard, 
+      taxerMobile, taxerIdCardImageURL, bizAddressPhone, 
+      recordDate, userId, removeState
+      )
+    values (#{id,jdbcType=INTEGER}, #{payerCode,jdbcType=VARCHAR}, #{payername,jdbcType=VARCHAR}, 
+      #{bizaddress,jdbcType=VARCHAR}, #{taxorganid,jdbcType=INTEGER}, #{industryid,jdbcType=INTEGER}, 
+      #{bizscope,jdbcType=VARCHAR}, #{invoicetype,jdbcType=VARCHAR}, #{legalperson,jdbcType=VARCHAR}, 
+      #{legalidcard,jdbcType=VARCHAR}, #{legalmobile,jdbcType=VARCHAR}, #{legalidcardimageurl,jdbcType=VARCHAR}, 
+      #{finacename,jdbcType=VARCHAR}, #{finaceidcard,jdbcType=VARCHAR}, #{finacemobile,jdbcType=VARCHAR}, 
+      #{finaceidcardimageurl,jdbcType=VARCHAR}, #{taxername,jdbcType=VARCHAR}, #{taxeridcard,jdbcType=VARCHAR}, 
+      #{taxermobile,jdbcType=VARCHAR}, #{taxeridcardimageurl,jdbcType=VARCHAR}, #{bizaddressphone,jdbcType=VARCHAR}, 
+      #{recorddate,jdbcType=DATE}, #{userid,jdbcType=INTEGER}, #{removestate,jdbcType=INTEGER}
+      )
+  </insert>
+  <!-- 7添加数据的方法 -->
+  <insert id="insertSelective" parameterType="com.newroad.manage.entity.TaxPayer1">
+    insert into tb_tax_payer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="payerCode != null">
+        payerCode,
+      </if>
+      <if test="payername != null">
+        payerName,
+      </if>
+      <if test="bizaddress != null">
+        bizAddress,
+      </if>
+      <if test="taxorganid != null">
+        taxOrganId,
+      </if>
+      <if test="industryid != null">
+        industryId,
+      </if>
+      <if test="bizscope != null">
+        bizScope,
+      </if>
+      <if test="invoicetype != null">
+        invoiceType,
+      </if>
+      <if test="legalperson != null">
+        legalPerson,
+      </if>
+      <if test="legalidcard != null">
+        legalIdCard,
+      </if>
+      <if test="legalmobile != null">
+        legalMobile,
+      </if>
+      <if test="legalidcardimageurl != null">
+        legalIdCardImageURL,
+      </if>
+      <if test="finacename != null">
+        finaceName,
+      </if>
+      <if test="finaceidcard != null">
+        finaceIdCard,
+      </if>
+      <if test="finacemobile != null">
+        finaceMobile,
+      </if>
+      <if test="finaceidcardimageurl != null">
+        finaceIdCardImageURL,
+      </if>
+      <if test="taxername != null">
+        taxerName,
+      </if>
+      <if test="taxeridcard != null">
+        taxerIdCard,
+      </if>
+      <if test="taxermobile != null">
+        taxerMobile,
+      </if>
+      <if test="taxeridcardimageurl != null">
+        taxerIdCardImageURL,
+      </if>
+      <if test="bizaddressphone != null">
+        bizAddressPhone,
+      </if>
+      <if test="recorddate != null">
+        recordDate,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="removestate != null">
+        removeState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payerCode != null">
+        #{payerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payername != null">
+        #{payername,jdbcType=VARCHAR},
+      </if>
+      <if test="bizaddress != null">
+        #{bizaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="taxorganid != null">
+        #{taxorganid,jdbcType=INTEGER},
+      </if>
+      <if test="industryid != null">
+        #{industryid,jdbcType=INTEGER},
+      </if>
+      <if test="bizscope != null">
+        #{bizscope,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicetype != null">
+        #{invoicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="legalperson != null">
+        #{legalperson,jdbcType=VARCHAR},
+      </if>
+      <if test="legalidcard != null">
+        #{legalidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalmobile != null">
+        #{legalmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="legalidcardimageurl != null">
+        #{legalidcardimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="finacename != null">
+        #{finacename,jdbcType=VARCHAR},
+      </if>
+      <if test="finaceidcard != null">
+        #{finaceidcard,jdbcType=VARCHAR},
+      </if>
+      <if test="finacemobile != null">
+        #{finacemobile,jdbcType=VARCHAR},
+      </if>
+      <if test="finaceidcardimageurl != null">
+        #{finaceidcardimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="taxername != null">
+        #{taxername,jdbcType=VARCHAR},
+      </if>
+      <if test="taxeridcard != null">
+        #{taxeridcard,jdbcType=VARCHAR},
+      </if>
+      <if test="taxermobile != null">
+        #{taxermobile,jdbcType=VARCHAR},
+      </if>
+      <if test="taxeridcardimageurl != null">
+        #{taxeridcardimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="bizaddressphone != null">
+        #{bizaddressphone,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        #{recorddate,jdbcType=DATE},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="removestate != null">
+        #{removestate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

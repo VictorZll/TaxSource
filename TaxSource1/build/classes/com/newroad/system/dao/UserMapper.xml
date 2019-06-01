@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newroad.system.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.newroad.system.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="taxerId" jdbcType="INTEGER" property="taxerid" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="permissionId" jdbcType="INTEGER" property="permissionid" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+  </resultMap>
+  <select id="login" resultType="User">
+  	select <include refid="Base_Column_List"></include> from tb_user where username=#{name} and password=#{pwd}
+  </select>
+  <sql id="Base_Column_List">
+    id, username, password, taxerId, salt, permissionId, state, email
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.newroad.system.entity.User">
+    insert into tb_user (id, username, password, 
+      taxerId, salt, permissionId, 
+      state, email)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{taxerid,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR}, #{permissionid,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newroad.system.entity.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="taxerid != null">
+        taxerId,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="permissionid != null">
+        permissionId,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="taxerid != null">
+        #{taxerid,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionid != null">
+        #{permissionid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

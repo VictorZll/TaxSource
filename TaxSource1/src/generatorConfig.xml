@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+  <context id="context1">
+  <commentGenerator>
+		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+		<property name="suppressAllComments" value="true"/>
+  </commentGenerator>
+  <!-- 连接数据库 -->
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/db_tax_source" driverClass="com.mysql.jdbc.Driver" password="root" userId="root" />
+  <!-- 指定生成实体的位置 -->  
+    <javaModelGenerator targetPackage="com.newroad.manage.entity" targetProject="TaxSource1/src" />
+  <!-- 指定映射文件输出位置 -->  
+    <sqlMapGenerator targetPackage="com.newroad.manage.dao" targetProject="TaxSource1/src" />
+  <!-- 映射信息对应接口生成位置 -->  
+    <javaClientGenerator targetPackage="com.newroad.manage.dao" targetProject="TaxSource1/src" type="XMLMAPPER" />
+   <!-- 要生成的表：  表名，实体类名  
+    
+    5，enableInsert（默认true）：指定是否生成insert语句；
+        6，enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；
+        7，enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；
+        8，enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；
+        9，enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；
+        10，enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；
+        11，enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；
+        12，enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；
+    -->  
+    <table schema="" tableName="tb_tax_source" domainObjectName="TaxSource1"
+    enableInsert="true" enableSelectByPrimaryKey="true" enableCountByExample="false" enableDeleteByExample="false"
+    enableDeleteByPrimaryKey="false" enableSelectByExample="false" enableUpdateByExample="false" enableUpdateByPrimaryKey="false"
+    >
+    </table>
+  </context>
+</generatorConfiguration>

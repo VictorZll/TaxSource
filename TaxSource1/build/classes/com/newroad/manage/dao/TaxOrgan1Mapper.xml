@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><mapper namespace="com.newroad.manage.dao.TaxOrgan1Mapper">
+  <resultMap id="BaseResultMap" type="com.newroad.manage.entity.TaxOrgan1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="organName" jdbcType="VARCHAR" property="organname" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="faxPhone" jdbcType="VARCHAR" property="faxphone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="leaderId" jdbcType="INTEGER" property="leaderid" />
+    <result column="taxTypeCode" jdbcType="VARCHAR" property="taxtypecode" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="recordDate" jdbcType="DATE" property="recorddate" />
+    <result column="recordUserId" jdbcType="INTEGER" property="recorduserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, organName, parentId, address, phone, faxPhone, email, leaderId, taxTypeCode, 
+    state, recordDate, recordUserId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_tax_organ
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="listAllTaxOrgan" resultType="TaxOrgan1">
+  select <include refid="Base_Column_List" />
+  from tb_tax_organ
+  </select>
+  <insert id="insert" parameterType="com.newroad.manage.entity.TaxOrgan1">
+    insert into tb_tax_organ (id, organName, parentId, 
+      address, phone, faxPhone, 
+      email, leaderId, taxTypeCode, 
+      state, recordDate, recordUserId
+      )
+    values (#{id,jdbcType=INTEGER}, #{organname,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{faxphone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{leaderid,jdbcType=INTEGER}, #{taxtypecode,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{recorddate,jdbcType=DATE}, #{recorduserid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.newroad.manage.entity.TaxOrgan1">
+    insert into tb_tax_organ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="organname != null">
+        organName,
+      </if>
+      <if test="parentid != null">
+        parentId,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="faxphone != null">
+        faxPhone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="leaderid != null">
+        leaderId,
+      </if>
+      <if test="taxtypecode != null">
+        taxTypeCode,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="recorddate != null">
+        recordDate,
+      </if>
+      <if test="recorduserid != null">
+        recordUserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="organname != null">
+        #{organname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="faxphone != null">
+        #{faxphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderid != null">
+        #{leaderid,jdbcType=INTEGER},
+      </if>
+      <if test="taxtypecode != null">
+        #{taxtypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="recorddate != null">
+        #{recorddate,jdbcType=DATE},
+      </if>
+      <if test="recorduserid != null">
+        #{recorduserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newroad.manage.dao.TaxSource1Mapper">
+  <resultMap id="BaseResultMap" type="com.newroad.manage.entity.TaxSource1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="payerId" jdbcType="INTEGER" property="payerid" />
+    <result column="taskName" jdbcType="VARCHAR" property="taskname" />
+    <result column="subOrganId" jdbcType="INTEGER" property="suborganid" />
+    <result column="approverId" jdbcType="INTEGER" property="approverid" />
+    <result column="executeId" jdbcType="INTEGER" property="executeid" />
+    <result column="executeTime" jdbcType="DATE" property="executetime" />
+    <result column="taskFrom" jdbcType="VARCHAR" property="taskfrom" />
+    <result column="taskState" jdbcType="VARCHAR" property="taskstate" />
+    <result column="idea" jdbcType="VARCHAR" property="idea" />
+    <result column="riskLevel" jdbcType="INTEGER" property="risklevel" />
+    <result column="recordTaskDate" jdbcType="DATE" property="recordtaskdate" />
+    <result column="recordUserId" jdbcType="INTEGER" property="recorduserid" />
+    <result column="removeState" jdbcType="INTEGER" property="removestate" />
+  </resultMap>
+  
+<!-- 分页的方法 -->  
+<sql id="Base_Column_Page_Condition">
+temp.id,temp.subOrganId,temp.industryId,temp.taskName,temp.payerCode,tb_tax_organ.organName,
+temp.payerName,tb_industry.industryName,temp.bizScope,
+temp.executeTime,temp.recordTaskDate,temp.outTime,temp.removeState
+</sql>
+<sql id="Base_Column_Page_Table" >
+ tb_industry RIGHT JOIN(SELECT tb_tax_source.id,tb_tax_source.subOrganId,tb_tax_source.taskName,tb_tax_payer.payerCode,tb_tax_payer.payerName,
+ tb_tax_payer.industryId,tb_tax_payer.bizScope,tb_tax_source.executeTime,tb_tax_source.recordTaskDate,tb_tax_source.removeState,
+ (tb_tax_source.recordTaskDate-tb_tax_source.executeTime) AS outTime  
+ FROM tb_tax_source left JOIN tb_tax_payer ON tb_tax_source.payerId=tb_tax_payer.id ) 
+ AS temp ON tb_industry.id=temp.industryId  
+ left JOIN tb_tax_organ ON tb_tax_organ.id=temp.subOrganId
+</sql>
+<select id="listByPage" resultType="TaxSource1">
+select <include refid="Base_Column_Page_Condition" /> from <include refid="Base_Column_Page_Table" />
+<where>
+removeState=0
+<if test="qc!=null">
+and ${qc}
+</if>
+</where> 
+  ORDER BY id limit #{offset},#{rows}
+</select>
+
+<!-- 计算总数的方法 -->
+<select id="getCount" resultType="java.lang.Integer">
+select count(removeState) zs from <include refid="Base_Column_Page_Table" />
+<where>
+removeState=0
+<if test="qc!=null">
+and ${qc}
+</if>
+</where>
+</select>
+
+<!-- 删除一条记录的方法 -->
+<update id="remove">
+update tb_tax_source set removeState=1 where id=#{id}
+</update>
+
+  <sql id="Base_Column_List">
+    id, payerId, taskName, subOrganId, approverId, executeId, executeTime, taskFrom, 
+    taskState, idea, riskLevel, recordTaskDate, recordUserId, removeState
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="TaxSource1">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_tax_source
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.newroad.manage.entity.TaxSource1">
+    insert into tb_tax_source (id, payerId, taskName, 
+      subOrganId, approverId, executeId, 
+      executeTime, taskFrom, taskState, 
+      idea, riskLevel, recordTaskDate, 
+      recordUserId, removeState)
+    values (#{id,jdbcType=INTEGER}, #{payerid,jdbcType=INTEGER}, #{taskname,jdbcType=VARCHAR}, 
+      #{suborganid,jdbcType=INTEGER}, #{approverid,jdbcType=INTEGER}, #{executeid,jdbcType=INTEGER}, 
+      #{executetime,jdbcType=DATE}, #{taskfrom,jdbcType=VARCHAR}, #{taskstate,jdbcType=VARCHAR}, 
+      #{idea,jdbcType=VARCHAR}, #{risklevel,jdbcType=INTEGER}, #{recordtaskdate,jdbcType=DATE}, 
+      #{recorduserid,jdbcType=INTEGER}, #{removestate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newroad.manage.entity.TaxSource1">
+    insert into tb_tax_source
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="payerid != null">
+        payerId,
+      </if>
+      <if test="taskname != null">
+        taskName,
+      </if>
+      <if test="suborganid != null">
+        subOrganId,
+      </if>
+      <if test="approverid != null">
+        approverId,
+      </if>
+      <if test="executeid != null">
+        executeId,
+      </if>
+      <if test="executetime != null">
+        executeTime,
+      </if>
+      <if test="taskfrom != null">
+        taskFrom,
+      </if>
+      <if test="taskstate != null">
+        taskState,
+      </if>
+      <if test="idea != null">
+        idea,
+      </if>
+      <if test="risklevel != null">
+        riskLevel,
+      </if>
+      <if test="recordtaskdate != null">
+        recordTaskDate,
+      </if>
+      <if test="recorduserid != null">
+        recordUserId,
+      </if>
+      <if test="removestate != null">
+        removeState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payerid != null">
+        #{payerid,jdbcType=INTEGER},
+      </if>
+      <if test="taskname != null">
+        #{taskname,jdbcType=VARCHAR},
+      </if>
+      <if test="suborganid != null">
+        #{suborganid,jdbcType=INTEGER},
+      </if>
+      <if test="approverid != null">
+        #{approverid,jdbcType=INTEGER},
+      </if>
+      <if test="executeid != null">
+        #{executeid,jdbcType=INTEGER},
+      </if>
+      <if test="executetime != null">
+        #{executetime,jdbcType=DATE},
+      </if>
+      <if test="taskfrom != null">
+        #{taskfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="taskstate != null">
+        #{taskstate,jdbcType=VARCHAR},
+      </if>
+      <if test="idea != null">
+        #{idea,jdbcType=VARCHAR},
+      </if>
+      <if test="risklevel != null">
+        #{risklevel,jdbcType=INTEGER},
+      </if>
+      <if test="recordtaskdate != null">
+        #{recordtaskdate,jdbcType=DATE},
+      </if>
+      <if test="recorduserid != null">
+        #{recorduserid,jdbcType=INTEGER},
+      </if>
+      <if test="removestate != null">
+        #{removestate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

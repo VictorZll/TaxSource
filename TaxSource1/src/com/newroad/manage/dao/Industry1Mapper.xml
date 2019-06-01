@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><mapper namespace="com.newroad.manage.dao.Industry1Mapper">
+  <resultMap id="BaseResultMap" type="com.newroad.manage.entity.Industry1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="industryName" jdbcType="VARCHAR" property="industryname" />
+    <result column="recordDate" jdbcType="DATE" property="recorddate" />
+    <result column="recordUserId" jdbcType="INTEGER" property="recorduserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, industryName, recordDate, recordUserId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_industry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="listAllIndustry" resultType="Industry1">
+  select <include refid="Base_Column_List" /> from tb_industry 
+  </select>
+  <insert id="insert" parameterType="com.newroad.manage.entity.Industry1">
+    insert into tb_industry (id, industryName, recordDate, 
+      recordUserId)
+    values (#{id,jdbcType=INTEGER}, #{industryname,jdbcType=VARCHAR}, #{recorddate,jdbcType=DATE}, 
+      #{recorduserid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.newroad.manage.entity.Industry1">
+    insert into tb_industry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="industryname != null">
+        industryName,
+      </if>
+      <if test="recorddate != null">
+        recordDate,
+      </if>
+      <if test="recorduserid != null">
+        recordUserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="industryname != null">
+        #{industryname,jdbcType=VARCHAR},
+      </if>
+      <if test="recorddate != null">
+        #{recorddate,jdbcType=DATE},
+      </if>
+      <if test="recorduserid != null">
+        #{recorduserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
