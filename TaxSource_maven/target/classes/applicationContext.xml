@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 开启注解配置 -->	
+	<context:annotation-config/>
+	<!-- 配置扫描基本包 将受管bean纳入IOC-->
+	<context:component-scan base-package="com.newroad"/>
+	<!-- 使用注解配置事物管理器 -->
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" /> 
+	
+	<!-- 开启cglib代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+		<property name="driverClass" value="com.mysql.jdbc.Driver" ></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_tax_source" ></property>
+		<property name="password" value="root" ></property>
+		<property name="user" value="root" ></property>
+	</bean>
+	<!-- 将事务管理器纳入到IOC容器中 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- 	配置数据源属性 -->
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- sqlSession -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource" ></property>
+		<property name="configLocation" value="classpath:mybatis_config.xml" ></property>
+		<property name="mapperLocations" value="classpath:com/newroad/*/dao/*.xml" ></property>
+	</bean>
+	 
+	<!-- 定义扫描mapper接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+		<property name="basePackage" value="com.newroad.*.dao" ></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" ></property>
+	</bean>
+
+
+
+</beans>
