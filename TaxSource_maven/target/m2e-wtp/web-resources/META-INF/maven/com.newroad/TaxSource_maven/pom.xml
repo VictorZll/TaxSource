@@ -1,0 +1,175 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+     <!-- pom模型版本，maven2和3只能为4.0.0-->
+  <modelVersion>4.0.0</modelVersion>
+   <!-- 项目的组ID，用于maven定位-->
+  <groupId>com.newroad</groupId>   
+    <!-- 项目ID，通常是项目的名称,唯一标识符-->
+  <artifactId>TaxSource_maven</artifactId>
+   <!-- 项目的打包方式--> 
+  <packaging>war</packaging>
+     <!-- 项目的版本-->
+  <version>0.0.1-SNAPSHOT</version>
+  <name>TaxSource_maven Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+   <!-- 配置常量 -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <spring.version>4.3.8.RELEASE</spring.version>
+    <mybatis.version>3.5.0</mybatis.version>
+    <mybatis-spring.version>1.3.2</mybatis-spring.version>
+    <log4j.version>1.7.25</log4j.version>
+  </properties>
+  
+  <dependencies>
+
+ 
+  <!-- junit的依赖 -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- servlet的依赖 -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>4.0.1</version>
+	    <scope>provided</scope>
+	</dependency>
+	 
+    <!-- spring-context -->
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-context</artifactId>
+    	<version>${spring.version}</version>
+    	<!-- 排除依赖  -->
+    	<exclusions>
+    		<exclusion>
+    			<groupId>commons-logging</groupId>
+    			<artifactId>commons-logging</artifactId>
+    		</exclusion>
+    	</exclusions>
+	</dependency>
+	<!--spring-context-support -->
+	 <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-context-support</artifactId>
+    	<version>${spring.version}</version>
+	</dependency>
+	<!--spring-context-aspects -->
+	 <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-aspects</artifactId>
+    	<version>${spring.version}</version>
+	</dependency>
+	<!--spring-jdbc  -->
+	 <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jdbc</artifactId>
+    	<version>${spring.version}</version>
+	</dependency>
+	<!-- mybatis -->
+	<dependency>
+    	<groupId>org.mybatis</groupId>
+    	<artifactId>mybatis</artifactId>
+    	<version>${mybatis.version}</version>
+	</dependency>
+	<!-- mybatis-spring -->
+	<dependency>
+   	 	<groupId>org.mybatis</groupId>
+    	<artifactId>mybatis-spring</artifactId>
+    	<version>${mybatis-spring.version}</version>
+	</dependency>
+	<!-- log4j -->
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-log4j12</artifactId>
+    	<version>${log4j.version}</version>
+	</dependency>
+	<!--jcl-over-slf4j -->
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>jcl-over-slf4j</artifactId>
+    	<version>${log4j.version}</version>
+	</dependency>
+	
+	<!-- fastjson -->
+	<dependency>
+    	<groupId>com.alibaba</groupId>
+    	<artifactId>fastjson</artifactId>
+    	<version>1.2.56</version>
+	</dependency>
+	
+	<!-- c3p0 -->
+	<dependency>
+  	  	<groupId>com.mchange</groupId>
+    	<artifactId>c3p0</artifactId>
+    	<version>0.9.5.2</version>
+	</dependency>
+		
+	<!-- aspectj -->	
+	<dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.8.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjtools</artifactId>
+      <version>1.8.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.7.4</version>
+    </dependency>
+	<!-- kaptcha -->
+	<dependency>
+	    <groupId>com.github.penggle</groupId>
+	    <artifactId>kaptcha</artifactId>
+	    <version>2.3.2</version> 
+	</dependency>
+	<!--commons-logging -->
+	<dependency>
+	    <groupId>commons-logging</groupId>
+	    <artifactId>commons-logging</artifactId>
+	    <version>1.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>commons-beanutils</groupId>
+	    <artifactId>commons-beanutils</artifactId>
+	    <version>1.2</version>
+	</dependency>
+	
+	
+
+    
+	
+	
+	<!-- mysql -->
+	<dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.47</version>
+	</dependency>
+
+  </dependencies>
+  <build>
+    <!-- 设置1.8jdk -->
+    <finalName>TaxSource_maven</finalName>
+        <plugins>
+        <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-compiler-plugin</artifactId>
+             <version>3.0</version>
+             <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+             </configuration>
+        </plugin>
+    </plugins>
+  </build>
+</project>
